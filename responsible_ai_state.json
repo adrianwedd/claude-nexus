@@ -1,0 +1,139 @@
+{
+  "config": {
+    "bias_detection": {
+      "enabled_bias_types": [
+        "demographic_parity",
+        "equalized_odds",
+        "representation_bias"
+      ],
+      "protected_attributes": [
+        "user_type",
+        "organization_size",
+        "geographic_region"
+      ],
+      "bias_thresholds": {
+        "demographic_parity": 0.1,
+        "equalized_odds": 0.1,
+        "disparate_impact": 0.8,
+        "statistical_significance": 0.05
+      },
+      "minimum_group_size": 30,
+      "monitoring_frequency_hours": 24
+    },
+    "explainability": {
+      "default_method": "feature_importance",
+      "explanation_depth": "detailed",
+      "generate_counterfactuals": true,
+      "human_readable_required": true,
+      "confidence_threshold": 0.7
+    },
+    "privacy": {
+      "differential_privacy_enabled": true,
+      "default_epsilon": 1.0,
+      "anonymization_required": true,
+      "data_retention_days": 90,
+      "consent_tracking": true
+    },
+    "compliance": {
+      "standards": [
+        "gdpr",
+        "soc2",
+        "nist_ai_rmf"
+      ],
+      "audit_frequency_days": 90,
+      "automated_compliance_checks": true,
+      "violation_alerting": true
+    },
+    "ethical_guidelines": {
+      "principles": [
+        "transparency",
+        "fairness",
+        "accountability",
+        "privacy",
+        "human_oversight",
+        "non_maleficence",
+        "beneficence"
+      ],
+      "enforcement_level": "strict",
+      "violation_tolerance": 0.05
+    },
+    "monitoring": {
+      "real_time_bias_detection": true,
+      "automated_alerts": true,
+      "dashboard_updates": true,
+      "reporting_frequency_days": 7
+    }
+  },
+  "bias_analyses": [],
+  "explanations": [],
+  "privacy_assessments": [],
+  "audit_results": [],
+  "bias_alerts": [],
+  "compliance_violations": [],
+  "ethical_guidelines": {
+    "transparency": {
+      "description": "AI decisions must be explainable and transparent",
+      "requirements": [
+        "Provide explanations for all decisions",
+        "Make decision processes auditable",
+        "Ensure traceability of AI outcomes"
+      ],
+      "weight": 0.2
+    },
+    "fairness": {
+      "description": "AI systems must treat all users fairly",
+      "requirements": [
+        "No discrimination based on protected attributes",
+        "Equal treatment across different groups",
+        "Regular bias monitoring and mitigation"
+      ],
+      "weight": 0.25
+    },
+    "accountability": {
+      "description": "Clear responsibility for AI decisions",
+      "requirements": [
+        "Human oversight of AI decisions",
+        "Clear governance structures",
+        "Responsibility assignment"
+      ],
+      "weight": 0.15
+    },
+    "privacy": {
+      "description": "Protect user privacy and data",
+      "requirements": [
+        "Data minimization",
+        "Consent management",
+        "Secure data handling"
+      ],
+      "weight": 0.2
+    },
+    "human_oversight": {
+      "description": "Meaningful human control over AI",
+      "requirements": [
+        "Human-in-the-loop processes",
+        "Override capabilities",
+        "Human final decision authority"
+      ],
+      "weight": 0.1
+    },
+    "non_maleficence": {
+      "description": "Do no harm",
+      "requirements": [
+        "Risk assessment and mitigation",
+        "Safety measures",
+        "Harm prevention protocols"
+      ],
+      "weight": 0.05
+    },
+    "beneficence": {
+      "description": "AI should benefit society",
+      "requirements": [
+        "Positive social impact",
+        "Value creation",
+        "Stakeholder benefit"
+      ],
+      "weight": 0.05
+    }
+  },
+  "last_updated": "2025-08-04T10:38:04.810518"
+}

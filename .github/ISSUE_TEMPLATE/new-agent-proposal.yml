@@ -1,0 +1,137 @@
+name: 🎭 New Agent Proposal
+description: Propose a new specialized agent for the Claude Nexus ecosystem
+title: "[AGENT] New Agent: [Agent Name]"
+labels: ["agent-proposal", "community", "enhancement"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🎭 New Agent Proposal
+        
+        Thank you for proposing a new agent! This helps us grow the Claude Nexus ecosystem with valuable specialized expertise.
+        
+        **Before submitting**: Please check existing agents and open proposals to avoid duplicates.
+
+  - type: input
+    id: agent-name
+    attributes:
+      label: Agent Name
+      description: What would you like to call this agent?
+      placeholder: "e.g., Database Optimizer, API Security Specialist"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: domain
+    attributes:
+      label: Primary Domain
+      description: Which domain does this agent belong to?
+      options:
+        - Core Engineering
+        - Infrastructure & Operations  
+        - Security & Quality
+        - Integration & Data
+        - User Experience & Documentation
+        - Advanced Capabilities
+        - New Domain (specify in description)
+    validations:
+      required: true
+
+  - type: textarea
+    id: specialization
+    attributes:
+      label: Specialization Focus
+      description: What specific area will this agent specialize in?
+      placeholder: "e.g., Database performance optimization, API rate limiting, Frontend accessibility"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem-statement
+    attributes:
+      label: Problem Statement
+      description: What developer pain point does this agent solve?
+      placeholder: "Describe the specific problem this agent addresses and why it's important..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: capabilities
+    attributes:
+      label: Core Capabilities
+      description: List 3-5 primary capabilities this agent would have
+      placeholder: |
+        1. Capability one
+        2. Capability two  
+        3. Capability three
+        4. Capability four
+    validations:
+      required: true
+
+  - type: textarea
+    id: methodology
+    attributes:
+      label: Signature Methodology
+      description: What unique approach or methodology would this agent use?
+      placeholder: "e.g., Performance-First Database Architecture, Zero-Trust Security Validation"
+    validations:
+      required: true
+
+  - type: input
+    id: kitten-breed
+    attributes:
+      label: Suggested Kitten Breed
+      description: What kitten breed would best represent this agent's personality?
+      placeholder: "e.g., Scottish Fold (methodical), Persian (elegant), Maine Coon (robust)"
+
+  - type: textarea
+    id: integrations
+    attributes:
+      label: Tool & Framework Integrations
+      description: What tools, frameworks, or systems would this agent integrate with?
+      placeholder: "e.g., PostgreSQL, Redis, Docker, Kubernetes, React, Vue.js"
+
+  - type: textarea
+    id: success-metrics
+    attributes:
+      label: Success Metrics
+      description: How would you measure this agent's effectiveness?
+      placeholder: |
+        - Metric 1 (e.g., 50%+ query performance improvement)
+        - Metric 2 (e.g., 95%+ accuracy rate)
+        - Metric 3 (e.g., Developer satisfaction score)
+
+  - type: textarea
+    id: usage-example
+    attributes:
+      label: Usage Example
+      description: Provide a realistic example of how developers would use this agent
+      placeholder: |
+        ```javascript
+        Task({
+          subagent_type: "your-agent-type",
+          description: "Example task description", 
+          prompt: "Specific problem to solve..."
+        })
+        ```
+
+  - type: checkboxes
+    id: contribution-commitment
+    attributes:
+      label: Contribution Commitment
+      description: Are you interested in helping develop this agent?
+      options:
+        - label: I'm willing to help implement this agent
+        - label: I can provide domain expertise and feedback
+        - label: I can help with testing and validation
+        - label: I can assist with documentation
+        - label: This is just a suggestion (no implementation commitment)
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Any other relevant information about this agent proposal?
+      placeholder: "Market research, competitive analysis, related tools, etc."

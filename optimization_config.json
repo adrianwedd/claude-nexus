@@ -1,0 +1,84 @@
+{
+  "monitoring_interval_minutes": 60,
+  "performance_thresholds": {
+    "critical_threshold": 0.6,
+    "warning_threshold": 0.7,
+    "target_threshold": 0.75
+  },
+  "agents_to_monitor": [
+    "reliability-engineer",
+    "fortress-guardian",
+    "performance-virtuoso"
+  ],
+  "optimization_targets": {
+    "reliability-engineer": {
+      "baseline": 0.406,
+      "current_target": 0.81,
+      "keywords": [
+        "architecture",
+        "reliability",
+        "P0",
+        "P1",
+        "P2",
+        "monitoring",
+        "SLA",
+        "operational"
+      ],
+      "indicators": [
+        "priority classification",
+        "system analysis",
+        "architectural",
+        "operational context",
+        "SLA impact assessment"
+      ]
+    },
+    "fortress-guardian": {
+      "baseline": 0.487,
+      "current_target": 0.94,
+      "keywords": [
+        "security",
+        "vulnerability",
+        "CVSS",
+        "authentication",
+        "encryption",
+        "compliance",
+        "penetration",
+        "threat"
+      ],
+      "indicators": [
+        "threat model",
+        "CVSS scoring",
+        "security controls",
+        "vulnerability assessment",
+        "penetration testing"
+      ]
+    },
+    "performance-virtuoso": {
+      "baseline": 0.506,
+      "current_target": 0.86,
+      "keywords": [
+        "latency",
+        "throughput",
+        "optimization",
+        "bottleneck",
+        "scalability",
+        "ms",
+        "performance",
+        "monitoring"
+      ],
+      "indicators": [
+        "quantified metrics",
+        "before/after",
+        "optimization",
+        "scalability assessment",
+        "performance monitoring"
+      ]
+    }
+  },
+  "alert_settings": {
+    "email_alerts": false,
+    "slack_alerts": false,
+    "console_alerts": true,
+    "log_alerts": true
+  }
+}

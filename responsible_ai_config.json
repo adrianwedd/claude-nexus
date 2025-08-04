@@ -1,0 +1,65 @@
+{
+  "bias_detection": {
+    "enabled_bias_types": [
+      "demographic_parity",
+      "equalized_odds",
+      "representation_bias"
+    ],
+    "protected_attributes": [
+      "user_type",
+      "organization_size",
+      "geographic_region"
+    ],
+    "bias_thresholds": {
+      "demographic_parity": 0.1,
+      "equalized_odds": 0.1,
+      "disparate_impact": 0.8,
+      "statistical_significance": 0.05
+    },
+    "minimum_group_size": 30,
+    "monitoring_frequency_hours": 24
+  },
+  "explainability": {
+    "default_method": "feature_importance",
+    "explanation_depth": "detailed",
+    "generate_counterfactuals": true,
+    "human_readable_required": true,
+    "confidence_threshold": 0.7
+  },
+  "privacy": {
+    "differential_privacy_enabled": true,
+    "default_epsilon": 1.0,
+    "anonymization_required": true,
+    "data_retention_days": 90,
+    "consent_tracking": true
+  },
+  "compliance": {
+    "standards": [
+      "gdpr",
+      "soc2",
+      "nist_ai_rmf"
+    ],
+    "audit_frequency_days": 90,
+    "automated_compliance_checks": true,
+    "violation_alerting": true
+  },
+  "ethical_guidelines": {
+    "principles": [
+      "transparency",
+      "fairness",
+      "accountability",
+      "privacy",
+      "human_oversight",
+      "non_maleficence",
+      "beneficence"
+    ],
+    "enforcement_level": "strict",
+    "violation_tolerance": 0.05
+  },
+  "monitoring": {
+    "real_time_bias_detection": true,
+    "automated_alerts": true,
+    "dashboard_updates": true,
+    "reporting_frequency_days": 7
+  }
+}

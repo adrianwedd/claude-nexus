@@ -1,0 +1,294 @@
+{
+  "migration_analysis": {
+    "project": "Legacy User Profile System Migration",
+    "total_records": 500000,
+    "data_quality_issues_percentage": 15,
+    "affected_records": 75000,
+    "migration_priority": "critical",
+    "compliance_requirements": ["GDPR", "audit_trails", "data_validation"]
+  },
+  "data_quality_assessment": {
+    "identified_issues": {
+      "structural_problems": {
+        "fragmented_storage": {
+          "severity": "high",
+          "description": "User data spread across 3 tables",
+          "impact": "Query performance degradation, data inconsistency risks",
+          "affected_records_estimate": 500000
+        },
+        "duplicate_emails": {
+          "severity": "critical",
+          "description": "Email field lacks uniqueness constraint",
+          "impact": "Authentication issues, compliance violations",
+          "detection_query": "SELECT email, COUNT(*) FROM users GROUP BY email HAVING COUNT(*) > 1"
+        },
+        "date_format_inconsistency": {
+          "severity": "high",
+          "description": "3 different date formats for birth dates",
+          "formats_found": ["MM/DD/YYYY", "YYYY-MM-DD", "DD-MM-YYYY"],
+          "impact": "Age calculation errors, regulatory compliance issues",
+          "affected_percentage": 100
+        },
+        "unvalidated_json_blobs": {
+          "severity": "medium",
+          "description": "Profile preferences stored without schema validation",
+          "impact": "Application errors, data corruption risks",
+          "common_issues": ["missing_required_fields", "type_mismatches", "malformed_json"]
+        }
+      },
+      "data_quality_metrics": {
+        "completeness_score": 72,
+        "consistency_score": 58,
+        "validity_score": 65,
+        "uniqueness_score": 89,
+        "timeliness_score": 94,
+        "accuracy_score": 76,
+        "overall_health_score": 75.7
+      },
+      "risk_assessment": {
+        "data_loss_risk": "high_without_mitigation",
+        "compliance_risk": "critical",
+        "operational_risk": "medium",
+        "reputation_risk": "high"
+      }
+    },
+    "remediation_priority": [
+      "duplicate_email_resolution",
+      "date_format_standardization",
+      "json_schema_validation",
+      "table_consolidation"
+    ]
+  },
+  "schema_evolution_strategy": {
+    "design_principles": {
+      "backward_compatibility": true,
+      "forward_compatibility": true,
+      "version_control": "semantic_versioning",
+      "evolution_type": "additive_with_deprecation"
+    },
+    "target_schema": {
+      "users_v2": {
+        "fields": {
+          "id": {
+            "type": "uuid",
+            "constraints": ["primary_key", "not_null"],
+            "index": "clustered"
+          },
+          "legacy_id": {
+            "type": "bigint",
+            "constraints": ["unique", "not_null"],
+            "description": "Reference to old system ID for rollback capability"
+          },
+          "email": {
+            "type": "varchar(255)",
+            "constraints": ["unique", "not_null", "lowercase"],
+            "validation": "email_regex",
+            "index": "unique_btree"
+          },
+          "email_verified": {
+            "type": "boolean",
+            "default": false,
+            "constraints": ["not_null"]
+          },
+          "username": {
+            "type": "varchar(50)",
+            "constraints": ["unique", "not_null"],
+            "validation": "alphanumeric_underscore"
+          },
+          "first_name": {
+            "type": "varchar(100)",
+            "constraints": ["not_null"],
+            "encryption": "at_rest"
+          },
+          "last_name": {
+            "type": "varchar(100)",
+            "constraints": ["not_null"],
+            "encryption": "at_rest"
+          },
+          "birth_date": {
+            "type": "date",
+            "format": "ISO-8601",
+            "validation": "age_between_13_120"
+          },
+          "profile_preferences": {
+            "type": "jsonb",
+            "schema_version": "1.0.0",
+            "validation": "json_schema_strict"
+          },
+          "gdpr_consent": {
+            "type": "jsonb",
+            "required_fields": ["marketing", "data_processing", "third_party_sharing"],
+            "constraints": ["not_null"]
+          },
+          "data_quality_score": {
+            "type": "decimal(3,2)",
+            "range": [0.00, 1.00],
+            "description": "Automated data quality assessment score"
+          },
+          "migration_metadata": {
+            "type": "jsonb",
+            "fields": {
+              "source_system": "string",
+              "migration_date": "timestamp",
+              "migration_version": "string",
+              "data_corrections": "array"
+            }
+          },
+          "created_at": {
+            "type": "timestamp",
+            "default": "current_timestamp",
+            "constraints": ["not_null"]
+          },
+          "updated_at": {
+            "type": "timestamp",
+            "default": "current_timestamp",
+            "constraints": ["not_null"],
+            "trigger": "update_timestamp"
+          },
+          "deleted_at": {
+            "type": "timestamp",
+            "description": "Soft delete timestamp for GDPR compliance"
+          }
+        },
+        "indexes": {
+          "idx_email": "unique(email)",
+          "idx_username": "unique(username)",
+          "idx_legacy_id": "unique(legacy_id)",
+          "idx_created_at": "btree(created_at)",
+          "idx_deleted_at": "btree(deleted_at) WHERE deleted_at IS NOT NULL",
+          "idx_quality_score": "btree(data_quality_score)"
+        }
+      },
+      "audit_log": {
+        "fields": {
+          "id": {
+            "type": "uuid",
+            "constraints": ["primary_key"]
+          },
+          "user_id": {
+            "type": "uuid",
+            "constraints": ["not_null"],
+            "foreign_key": "users_v2.id"
+          },
+          "action": {
+            "type": "varchar(50)",
+            "enum": ["create", "update", "delete", "restore", "merge", "validate"],
+            "constraints": ["not_null"]
+          },
+          "field_name": {
+            "type": "varchar(100)"
+          },
+          "old_value": {
+            "type": "jsonb",
+            "encryption": "at_rest"
+          },
+          "new_value": {
+            "type": "jsonb",
+            "encryption": "at_rest"
+          },
+          "actor_id": {
+            "type": "uuid",
+            "description": "User or system that performed the action"
+          },
+          "actor_type": {
+            "type": "varchar(20)",
+            "enum": ["user", "system", "migration", "admin"]
+          },
+          "ip_address": {
+            "type": "inet",
+            "anonymization": "hash_last_octet"
+          },
+          "user_agent": {
+            "type": "text"
+          },
+          "timestamp": {
+            "type": "timestamp",
+            "default": "current_timestamp",
+            "constraints": ["not_null"]
+          },
+          "compliance_flags": {
+            "type": "jsonb",
+            "description": "GDPR and other compliance-related metadata"
+          }
+        },
+        "indexes": {
+          "idx_user_timestamp": "btree(user_id, timestamp DESC)",
+          "idx_action_timestamp": "btree(action, timestamp DESC)",
+          "idx_timestamp": "brin(timestamp)"
+        },
+        "partitioning": {
+          "strategy": "range",
+          "column": "timestamp",
+          "interval": "monthly"
+        }
+      },
+      "data_quality_issues": {
+        "fields": {
+          "id": {
+            "type": "uuid",
+            "constraints": ["primary_key"]
+          },
+          "user_id": {
+            "type": "uuid",
+            "constraints": ["not_null"],
+            "foreign_key": "users_v2.id"
+          },
+          "issue_type": {
+            "type": "varchar(50)",
+            "enum": ["duplicate_email", "invalid_date", "missing_field", "invalid_format", "constraint_violation"],
+            "constraints": ["not_null"]
+          },
+          "severity": {
+            "type": "varchar(20)",
+            "enum": ["critical", "high", "medium", "low"],
+            "constraints": ["not_null"]
+          },
+          "field_name": {
+            "type": "varchar(100)",
+            "constraints": ["not_null"]
+          },
+          "current_value": {
+            "type": "jsonb"
+          },
+          "suggested_value": {
+            "type": "jsonb"
+          },
+          "detection_method": {
+            "type": "varchar(50)",
+            "enum": ["migration", "validation", "user_report", "automated_scan"]
+          },
+          "status": {
+            "type": "varchar(20)",
+            "enum": ["pending", "in_review", "resolved", "ignored", "auto_corrected"],
+            "default": "pending"
+          },
+          "resolved_at": {
+            "type": "timestamp"
+          },
+          "resolved_by": {
+            "type": "uuid"
+          },
+          "resolution_notes": {
+            "type": "text"
+          },
+          "created_at": {
+            "type": "timestamp",
+            "default": "current_timestamp"
+          }
+        },
+        "indexes": {
+          "idx_user_status": "btree(user_id, status)",
+          "idx_severity_status": "btree(severity, status)",
+          "idx_created_at": "btree(created_at DESC)"
+        }
+      }
+    },
+    "versioning_strategy": {
+      "schema_version_table": {
+        "current_version": "2.0.0",
+        "migration_history": "tracked",
+        "rollback_support": true
+      }
+    }
+  }
+}

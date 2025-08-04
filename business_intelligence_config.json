@@ -1,0 +1,57 @@
+{
+  "financial_settings": {
+    "base_currency": "USD",
+    "cost_per_agent_hour": {
+      "reliability-engineer": 75.0,
+      "fortress-guardian": 85.0,
+      "performance-virtuoso": 80.0,
+      "interface-artisan": 70.0,
+      "data-architect": 90.0
+    },
+    "revenue_multipliers": {
+      "enterprise": 2.5,
+      "professional": 1.8,
+      "standard": 1.0
+    }
+  },
+  "kpi_targets": {
+    "agent_utilization": 0.85,
+    "customer_satisfaction": 0.9,
+    "response_quality": 0.88,
+    "cost_efficiency": 0.8,
+    "roi_target": 150.0,
+    "error_rate": 0.05
+  },
+  "benchmarks": {
+    "industry_roi": 125.0,
+    "industry_efficiency": 0.75,
+    "industry_satisfaction": 0.85
+  },
+  "forecasting": {
+    "default_horizon_days": 90,
+    "confidence_interval": 0.95,
+    "model_retrain_days": 30,
+    "min_data_points": 50
+  },
+  "reporting": {
+    "auto_report_enabled": true,
+    "report_frequency_days": 7,
+    "executive_report_frequency_days": 30,
+    "distribution_list": []
+  },
+  "visualization": {
+    "theme": "professional",
+    "color_palette": [
+      "#1f77b4",
+      "#ff7f0e",
+      "#2ca02c",
+      "#d62728",
+      "#9467bd"
+    ],
+    "export_formats": [
+      "png",
+      "pdf",
+      "html"
+    ]
+  }
+}

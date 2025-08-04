@@ -1,0 +1,338 @@
+{
+  "config": {
+    "agents": {
+      "reliability-engineer": {
+        "specialization_domains": [
+          "reliability",
+          "architecture",
+          "operations"
+        ],
+        "max_concurrent_tasks": 3,
+        "cost_per_minute": 0.5,
+        "expertise_keywords": [
+          "P0",
+          "P1",
+          "SLA",
+          "architecture",
+          "reliability",
+          "monitoring"
+        ]
+      },
+      "fortress-guardian": {
+        "specialization_domains": [
+          "security",
+          "compliance",
+          "risk"
+        ],
+        "max_concurrent_tasks": 2,
+        "cost_per_minute": 0.7,
+        "expertise_keywords": [
+          "CVSS",
+          "vulnerability",
+          "security",
+          "compliance",
+          "threat"
+        ]
+      },
+      "performance-virtuoso": {
+        "specialization_domains": [
+          "performance",
+          "optimization",
+          "scalability"
+        ],
+        "max_concurrent_tasks": 4,
+        "cost_per_minute": 0.6,
+        "expertise_keywords": [
+          "latency",
+          "throughput",
+          "optimization",
+          "performance",
+          "scalability"
+        ]
+      },
+      "interface-artisan": {
+        "specialization_domains": [
+          "ui",
+          "ux",
+          "design",
+          "frontend"
+        ],
+        "max_concurrent_tasks": 3,
+        "cost_per_minute": 0.45,
+        "expertise_keywords": [
+          "UI",
+          "UX",
+          "design",
+          "interface",
+          "accessibility"
+        ]
+      },
+      "data-architect": {
+        "specialization_domains": [
+          "data",
+          "analytics",
+          "ml",
+          "ai"
+        ],
+        "max_concurrent_tasks": 2,
+        "cost_per_minute": 0.8,
+        "expertise_keywords": [
+          "data",
+          "analytics",
+          "ML",
+          "AI",
+          "pipeline"
+        ]
+      }
+    },
+    "routing_strategies": {
+      "default_strategy": "hybrid",
+      "performance_weight": 0.4,
+      "cost_weight": 0.2,
+      "quality_weight": 0.3,
+      "load_balance_weight": 0.1
+    },
+    "collaboration_settings": {
+      "enable_multi_agent": true,
+      "max_agents_per_task": 3,
+      "collaboration_threshold": 0.7,
+      "handoff_delay_seconds": 5
+    },
+    "learning_parameters": {
+      "adaptation_rate": 0.1,
+      "history_window_days": 30,
+      "min_samples_for_learning": 10,
+      "feedback_weight": 0.3
+    },
+    "performance_targets": {
+      "response_time_ms": 5000,
+      "quality_score": 0.85,
+      "success_rate": 0.9,
+      "cost_efficiency": 0.8
+    }
+  },
+  "agent_capabilities": {
+    "reliability-engineer": {
+      "agent_type": "reliability-engineer",
+      "specialization_domains": [
+        "reliability",
+        "architecture",
+        "operations"
+      ],
+      "current_performance_score": 0.8,
+      "historical_success_rate": 0.85,
+      "average_response_time_ms": 5000,
+      "current_workload": 0,
+      "max_concurrent_tasks": 3,
+      "expertise_keywords": [
+        "P0",
+        "P1",
+        "SLA",
+        "architecture",
+        "reliability",
+        "monitoring"
+      ],
+      "collaboration_affinity": {},
+      "cost_per_minute": 0.5,
+      "last_updated": "2025-08-04T10:38:01.776976"
+    },
+    "fortress-guardian": {
+      "agent_type": "fortress-guardian",
+      "specialization_domains": [
+        "security",
+        "compliance",
+        "risk"
+      ],
+      "current_performance_score": 0.8,
+      "historical_success_rate": 0.85,
+      "average_response_time_ms": 5000,
+      "current_workload": 0,
+      "max_concurrent_tasks": 2,
+      "expertise_keywords": [
+        "CVSS",
+        "vulnerability",
+        "security",
+        "compliance",
+        "threat"
+      ],
+      "collaboration_affinity": {},
+      "cost_per_minute": 0.7,
+      "last_updated": "2025-08-04T10:38:01.776984"
+    },
+    "performance-virtuoso": {
+      "agent_type": "performance-virtuoso",
+      "specialization_domains": [
+        "performance",
+        "optimization",
+        "scalability"
+      ],
+      "current_performance_score": 0.88,
+      "historical_success_rate": 0.865,
+      "average_response_time_ms": 4200,
+      "current_workload": 0,
+      "max_concurrent_tasks": 4,
+      "expertise_keywords": [
+        "latency",
+        "throughput",
+        "optimization",
+        "performance",
+        "scalability"
+      ],
+      "collaboration_affinity": {},
+      "cost_per_minute": 0.6,
+      "last_updated": "2025-08-04T10:38:02.795544"
+    },
+    "interface-artisan": {
+      "agent_type": "interface-artisan",
+      "specialization_domains": [
+        "ui",
+        "ux",
+        "design",
+        "frontend"
+      ],
+      "current_performance_score": 0.8,
+      "historical_success_rate": 0.85,
+      "average_response_time_ms": 5000,
+      "current_workload": 0,
+      "max_concurrent_tasks": 3,
+      "expertise_keywords": [
+        "UI",
+        "UX",
+        "design",
+        "interface",
+        "accessibility"
+      ],
+      "collaboration_affinity": {},
+      "cost_per_minute": 0.45,
+      "last_updated": "2025-08-04T10:38:01.776990"
+    },
+    "data-architect": {
+      "agent_type": "data-architect",
+      "specialization_domains": [
+        "data",
+        "analytics",
+        "ml",
+        "ai"
+      ],
+      "current_performance_score": 0.8,
+      "historical_success_rate": 0.85,
+      "average_response_time_ms": 5000,
+      "current_workload": 0,
+      "max_concurrent_tasks": 2,
+      "expertise_keywords": [
+        "data",
+        "analytics",
+        "ML",
+        "AI",
+        "pipeline"
+      ],
+      "collaboration_affinity": {},
+      "cost_per_minute": 0.8,
+      "last_updated": "2025-08-04T10:38:01.776991"
+    }
+  },
+  "collaboration_patterns": {},
+  "performance_history": {
+    "performance-virtuoso": [
+      {
+        "timestamp": "2025-08-04T10:38:02.795595",
+        "performance_data": {
+          "response_time_ms": 4200,
+          "quality_score": 0.91,
+          "specialization_score": 0.88,
+          "task_successful": true
+        }
+      }
+    ]
+  },
+  "routing_decisions": [
+    {
+      "task_id": "integration_test_001",
+      "selected_agents": [
+        "performance-virtuoso",
+        "fortress-guardian",
+        "interface-artisan"
+      ],
+      "collaboration_pattern": "CollaborationType.HIERARCHICAL",
+      "confidence_score": 1.0,
+      "expected_performance": 1.0,
+      "estimated_cost": 157.5,
+      "estimated_duration_minutes": 90,
+      "routing_rationale": {
+        "collaboration_reason": "High complexity task requiring multi-agent expertise",
+        "selected_pattern": "dynamic_selection",
+        "agent_explanations": {
+          "performance-virtuoso": {
+            "domain_match": 0.55,
+            "keyword_relevance": 0.5,
+            "performance": 0.8,
+            "availability": 1.0,
+            "response_time": 0.8,
+            "cost_efficiency": 0.8,
+            "urgency_bonus": 0.18,
+            "final_score": 1.0775000000000001,
+            "current_workload": 0,
+            "max_capacity": 4
+          },
+          "fortress-guardian": {
+            "domain_match": 0.24166666666666664,
+            "keyword_relevance": 0.25,
+            "performance": 0.8,
+            "availability": 1.0,
+            "response_time": 0.8,
+            "cost_efficiency": 0.7666666666666667,
+            "urgency_bonus": 0.18,
+            "final_score": 0.9437500000000001,
+            "current_workload": 0,
+            "max_capacity": 2
+          },
+          "interface-artisan": {
+            "domain_match": 0.0,
+            "keyword_relevance": 0.0,
+            "performance": 0.8,
+            "availability": 1.0,
+            "response_time": 0.8,
+            "cost_efficiency": 0.85,
+            "urgency_bonus": 0.18,
+            "final_score": 0.8500000000000001,
+            "current_workload": 0,
+            "max_capacity": 3
+          }
+        },
+        "collaboration_type": "hierarchical",
+        "synergy_factors": {
+          "performance-virtuoso-fortress-guardian": 0.5,
+          "performance-virtuoso-interface-artisan": 0.5,
+          "fortress-guardian-interface-artisan": 0.5
+        }
+      },
+      "alternative_options": [
+        {
+          "agent": "reliability-engineer",
+          "confidence": 0.8466666666666667,
+          "estimated_cost": 45.0,
+          "estimated_duration": 90,
+          "reason": "Alternative option with 84.7% confidence"
+        },
+        {
+          "agent": "data-architect",
+          "confidence": 0.8266666666666667,
+          "estimated_cost": 72.0,
+          "estimated_duration": 90,
+          "reason": "Alternative option with 82.7% confidence"
+        }
+      ],
+      "timestamp": "2025-08-04T10:38:01.791985"
+    }
+  ],
+  "completed_tasks": [],
+  "current_workloads": {
+    "reliability-engineer": 0,
+    "fortress-guardian": 1,
+    "performance-virtuoso": 1,
+    "interface-artisan": 1,
+    "data-architect": 0
+  },
+  "adaptation_weights": {},
+  "last_updated": "2025-08-04T10:38:04.807482"
+}

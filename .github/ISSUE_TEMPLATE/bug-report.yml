@@ -1,0 +1,146 @@
+name: 🐛 Bug Report
+description: Report a bug or issue with an existing agent
+title: "[BUG] Brief description of the issue"
+labels: ["bug", "needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🐛 Bug Report
+        
+        Thank you for helping improve Claude Nexus! Please provide detailed information to help us reproduce and fix the issue.
+
+  - type: dropdown
+    id: affected-agent
+    attributes:
+      label: Affected Agent
+      description: Which agent is experiencing the issue?
+      options:
+        - Interface Artisan
+        - Performance Virtuoso
+        - Fortress Guardian
+        - DevEx Curator
+        - Reliability Engineer
+        - Code Sovereign
+        - Cloud Navigator
+        - Deployment Commander
+        - Integration Maestro
+        - Data Architect
+        - Data Flow Architect
+        - Mobile Platform Specialist
+        - Quality Assurance Engineer
+        - Intelligence Orchestrator
+        - Knowledge Curator
+        - Repository Surgeon
+        - Multiple Agents
+        - Framework/Core System
+    validations:
+      required: true
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is
+      placeholder: "Describe what happened vs. what you expected to happen..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: Steps to Reproduce
+      description: Detailed steps to reproduce the behavior
+      placeholder: |
+        1. Go to '...'
+        2. Execute agent with '...'
+        3. Observe result '...'
+        4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen?
+      placeholder: "A clear description of what you expected to happen..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual Behavior
+      description: What actually happened instead?
+      placeholder: "A clear description of what actually happened..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: error-logs
+    attributes:
+      label: Error Logs/Output
+      description: If applicable, paste any error messages or relevant output
+      placeholder: "Paste error messages, stack traces, or relevant output here..."
+      render: shell
+
+  - type: textarea
+    id: agent-prompt
+    attributes:
+      label: Agent Prompt Used
+      description: What prompt or task did you send to the agent?
+      placeholder: |
+        ```javascript
+        Task({
+          subagent_type: "agent-name",
+          description: "task description",
+          prompt: "your specific prompt here..."
+        })
+        ```
+      render: javascript
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      description: How severe is this issue?
+      options:
+        - Low - Minor inconvenience
+        - Medium - Affects functionality but has workaround
+        - High - Blocks important functionality
+        - Critical - System unusable or data loss
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment Details
+      description: Information about your environment
+      placeholder: |
+        - OS: [e.g., macOS 14.0, Ubuntu 22.04, Windows 11]
+        - Node.js/Python version: [e.g., Node 18.17.0, Python 3.9.7]
+        - Claude Nexus version: [e.g., v1.2.3]
+        - Claude API model: [e.g., claude-3-sonnet-20240229]
+        - Browser (if applicable): [e.g., Chrome 120.0]
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Any other context about the problem
+      placeholder: "Screenshots, related issues, similar problems, etc."
+
+  - type: checkboxes
+    id: troubleshooting
+    attributes:
+      label: Troubleshooting Checklist
+      description: Please confirm you've tried these basic troubleshooting steps
+      options:
+        - label: I've updated to the latest version of Claude Nexus
+        - label: I've checked the documentation for this agent
+        - label: I've searched existing issues for similar problems
+        - label: I've tried the agent with a simpler prompt to isolate the issue

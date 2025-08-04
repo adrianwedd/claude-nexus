@@ -1,0 +1,96 @@
+{
+  "config": {
+    "models": {
+      "performance_predictor": {
+        "algorithm": "gradient_boosting",
+        "hyperparameters": {
+          "n_estimators": 100,
+          "learning_rate": 0.1,
+          "max_depth": 6,
+          "random_state": 42
+        },
+        "retrain_interval_hours": 24,
+        "min_training_samples": 50
+      },
+      "agent_selector": {
+        "algorithm": "random_forest",
+        "hyperparameters": {
+          "n_estimators": 100,
+          "max_depth": 10,
+          "random_state": 42
+        },
+        "retrain_interval_hours": 12,
+        "min_training_samples": 30
+      },
+      "anomaly_detector": {
+        "algorithm": "isolation_forest",
+        "hyperparameters": {
+          "contamination": 0.1,
+          "random_state": 42
+        },
+        "retrain_interval_hours": 6,
+        "min_training_samples": 20
+      }
+    },
+    "features": {
+      "performance_features": [
+        "specialization_score",
+        "execution_time_ms",
+        "context_size",
+        "output_length",
+        "keyword_coverage",
+        "user_feedback_score",
+        "handoff_efficiency",
+        "collaboration_score",
+        "time_of_day",
+        "day_of_week",
+        "workload_complexity"
+      ],
+      "agent_selection_features": [
+        "task_type",
+        "context_complexity",
+        "required_expertise",
+        "urgency_level",
+        "collaboration_needed",
+        "historical_success_rate"
+      ],
+      "anomaly_features": [
+        "response_time_deviation",
+        "quality_score_deviation",
+        "resource_usage_deviation",
+        "error_rate_spike"
+      ]
+    },
+    "thresholds": {
+      "performance_degradation": 0.05,
+      "anomaly_score": 0.7,
+      "confidence_threshold": 0.8,
+      "bias_threshold": 0.1
+    },
+    "business_intelligence": {
+      "roi_calculation": {
+        "efficiency_weight": 0.3,
+        "quality_weight": 0.4,
+        "cost_weight": 0.3
+      },
+      "kpi_targets": {
+        "agent_utilization": 0.85,
+        "response_quality": 0.9,
+        "cost_efficiency": 0.8
+      }
+    },
+    "responsible_ai": {
+      "bias_detection_enabled": true,
+      "explainability_required": true,
+      "fairness_metrics": [
+        "demographic_parity",
+        "equalized_odds"
+      ],
+      "privacy_preserving": true
+    }
+  },
+  "prediction_history": [],
+  "alerts": [],
+  "model_metadata": {},
+  "last_updated": "2025-08-04T10:38:04.802566"
+}

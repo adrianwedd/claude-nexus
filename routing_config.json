@@ -1,0 +1,112 @@
+{
+  "agents": {
+    "reliability-engineer": {
+      "specialization_domains": [
+        "reliability",
+        "architecture",
+        "operations"
+      ],
+      "max_concurrent_tasks": 3,
+      "cost_per_minute": 0.5,
+      "expertise_keywords": [
+        "P0",
+        "P1",
+        "SLA",
+        "architecture",
+        "reliability",
+        "monitoring"
+      ]
+    },
+    "fortress-guardian": {
+      "specialization_domains": [
+        "security",
+        "compliance",
+        "risk"
+      ],
+      "max_concurrent_tasks": 2,
+      "cost_per_minute": 0.7,
+      "expertise_keywords": [
+        "CVSS",
+        "vulnerability",
+        "security",
+        "compliance",
+        "threat"
+      ]
+    },
+    "performance-virtuoso": {
+      "specialization_domains": [
+        "performance",
+        "optimization",
+        "scalability"
+      ],
+      "max_concurrent_tasks": 4,
+      "cost_per_minute": 0.6,
+      "expertise_keywords": [
+        "latency",
+        "throughput",
+        "optimization",
+        "performance",
+        "scalability"
+      ]
+    },
+    "interface-artisan": {
+      "specialization_domains": [
+        "ui",
+        "ux",
+        "design",
+        "frontend"
+      ],
+      "max_concurrent_tasks": 3,
+      "cost_per_minute": 0.45,
+      "expertise_keywords": [
+        "UI",
+        "UX",
+        "design",
+        "interface",
+        "accessibility"
+      ]
+    },
+    "data-architect": {
+      "specialization_domains": [
+        "data",
+        "analytics",
+        "ml",
+        "ai"
+      ],
+      "max_concurrent_tasks": 2,
+      "cost_per_minute": 0.8,
+      "expertise_keywords": [
+        "data",
+        "analytics",
+        "ML",
+        "AI",
+        "pipeline"
+      ]
+    }
+  },
+  "routing_strategies": {
+    "default_strategy": "hybrid",
+    "performance_weight": 0.4,
+    "cost_weight": 0.2,
+    "quality_weight": 0.3,
+    "load_balance_weight": 0.1
+  },
+  "collaboration_settings": {
+    "enable_multi_agent": true,
+    "max_agents_per_task": 3,
+    "collaboration_threshold": 0.7,
+    "handoff_delay_seconds": 5
+  },
+  "learning_parameters": {
+    "adaptation_rate": 0.1,
+    "history_window_days": 30,
+    "min_samples_for_learning": 10,
+    "feedback_weight": 0.3
+  },
+  "performance_targets": {
+    "response_time_ms": 5000,
+    "quality_score": 0.85,
+    "success_rate": 0.9,
+    "cost_efficiency": 0.8
+  }
+}

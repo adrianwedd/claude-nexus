@@ -1,0 +1,305 @@
+{
+  "performance_optimization": {
+    "baseline_metrics": {
+      "current_system": {
+        "avg_query_time": "250ms",
+        "write_throughput": "500 tps",
+        "storage_size": "2.5TB",
+        "index_size": "450GB",
+        "cache_hit_rate": "65%"
+      },
+      "optimization_targets": {
+        "avg_query_time": "< 25ms",
+        "write_throughput": "> 5000 tps",
+        "storage_efficiency": "30% reduction",
+        "index_efficiency": "50% reduction",
+        "cache_hit_rate": "> 95%"
+      }
+    },
+    "optimization_strategies": {
+      "schema_optimizations": {
+        "normalization_improvements": {
+          "strategy": "Selective denormalization for read-heavy operations",
+          "implementations": [
+            {
+              "optimization": "Materialized view for user profiles",
+              "benefit": "90% reduction in join operations",
+              "maintenance": "Async refresh on write"
+            },
+            {
+              "optimization": "JSONB indexing for preferences",
+              "technique": "GIN indexes with jsonb_path_ops",
+              "query_improvement": "100x faster JSON queries"
+            },
+            {
+              "optimization": "Computed columns for derived data",
+              "examples": ["age_group", "account_tier", "activity_level"],
+              "benefit": "Eliminate runtime calculations"
+            }
+          ]
+        },
+        "data_type_optimization": {
+          "optimizations": [
+            {
+              "field": "id",
+              "change": "bigserial -> uuid",
+              "benefit": "Better distribution, no sequence bottleneck"
+            },
+            {
+              "field": "timestamps",
+              "change": "timestamp -> timestamptz",
+              "benefit": "Timezone awareness, no conversion overhead"
+            },
+            {
+              "field": "preferences",
+              "change": "json -> jsonb",
+              "benefit": "Binary storage, indexable, 3x faster"
+            },
+            {
+              "field": "email",
+              "change": "varchar(255) -> citext",
+              "benefit": "Case-insensitive without LOWER()"
+            }
+          ]
+        },
+        "partitioning_strategy": {
+          "users_table": {
+            "strategy": "Range partitioning by created_at",
+            "partition_size": "monthly",
+            "retention": "7 years active, archive older",
+            "benefits": [
+              "Faster queries on recent data",
+              "Easier maintenance and archival",
+              "Parallel query execution"
+            ]
+          },
+          "audit_log": {
+            "strategy": "Range partitioning by timestamp",
+            "partition_size": "weekly",
+            "retention": "90 days hot, 2 years warm, indefinite cold",
+            "compression": "zstd for partitions > 30 days"
+          }
+        }
+      },
+      "indexing_strategy": {
+        "index_optimization_plan": {
+          "remove_redundant": [
+            "DROP INDEX idx_email_old",
+            "DROP INDEX idx_username_old", 
+            "DROP INDEX idx_created_date"
+          ],
+          "create_covering_indexes": [
+            {
+              "name": "idx_user_lookup",
+              "definition": "CREATE INDEX CONCURRENTLY ON users_v2(email) INCLUDE (id, username, first_name, last_name)",
+              "benefit": "Index-only scans for user lookups"
+            },
+            {
+              "name": "idx_active_users",
+              "definition": "CREATE INDEX ON users_v2(updated_at) WHERE deleted_at IS NULL",
+              "benefit": "Fast active user queries"
+            }
+          ],
+          "specialized_indexes": [
+            {
+              "type": "GIN",
+              "field": "profile_preferences",
+              "ops_class": "jsonb_path_ops",
+              "queries_improved": "JSON containment and path queries"
+            },
+            {
+              "type": "BRIN",
+              "field": "created_at",
+              "benefit": "Minimal storage for time-series queries"
+            },
+            {
+              "type": "Bloom",
+              "fields": ["email", "username", "legacy_id"],
+              "benefit": "Fast multi-column equality checks"
+            }
+          ]
+        },
+        "index_maintenance": {
+          "regular_tasks": [
+            {
+              "task": "REINDEX CONCURRENTLY",
+              "frequency": "monthly",
+              "target": "bloated indexes > 30%"
+            },
+            {
+              "task": "ANALYZE",
+              "frequency": "daily",
+              "target": "tables with > 10% changes"
+            },
+            {
+              "task": "Index usage review",
+              "frequency": "weekly",
+              "action": "Drop unused indexes"
+            }
+          ]
+        }
+      },
+      "query_optimization": {
+        "common_query_patterns": [
+          {
+            "pattern": "User lookup by email",
+            "original_time": "250ms",
+            "optimized_query": "SELECT * FROM users_v2 WHERE email = $1",
+            "optimization": "citext type + covering index",
+            "new_time": "< 1ms"
+          },
+          {
+            "pattern": "Recent user activity",
+            "original_time": "2s",
+            "optimized_query": "SELECT * FROM users_v2 WHERE updated_at > $1 AND deleted_at IS NULL ORDER BY updated_at DESC LIMIT $2",
+            "optimization": "Partial index on active users",
+            "new_time": "< 10ms"
+          },
+          {
+            "pattern": "Preference search",
+            "original_time": "5s",
+            "optimized_query": "SELECT * FROM users_v2 WHERE profile_preferences @> $1",
+            "optimization": "GIN index with jsonb_path_ops",
+            "new_time": "< 50ms"
+          }
+        ],
+        "query_hints": {
+          "enable_hints": true,
+          "common_hints": [
+            "/*+ IndexScan(users_v2 idx_email) */",
+            "/*+ BitmapScan(users_v2 idx_preferences) */",
+            "/*+ Parallel(users_v2 4) */"
+          ]
+        }
+      },
+      "caching_strategy": {
+        "multi_tier_cache": {
+          "L1_application_cache": {
+            "technology": "Redis",
+            "size": "16GB",
+            "ttl": "5 minutes",
+            "cache_keys": [
+              "user:{id}",
+              "user:email:{email}",
+              "user:username:{username}"
+            ],
+            "invalidation": "Write-through with async refresh"
+          },
+          "L2_database_cache": {
+            "technology": "PostgreSQL shared_buffers",
+            "size": "32GB",
+            "configuration": {
+              "shared_buffers": "32GB",
+              "effective_cache_size": "96GB",
+              "work_mem": "256MB"
+            }
+          },
+          "L3_cdn_cache": {
+            "technology": "CloudFlare",
+            "cached_endpoints": [
+              "/api/user/public/*",
+              "/api/user/avatar/*"
+            ],
+            "ttl": "1 hour",
+            "invalidation": "Tag-based purge"
+          }
+        },
+        "cache_warming": {
+          "strategy": "Predictive preloading",
+          "triggers": [
+            "User login",
+            "Scheduled batch jobs",
+            "Traffic pattern analysis"
+          ],
+          "preload_queries": [
+            "Top 1000 active users",
+            "Recent registrations",
+            "Users with upcoming actions"
+          ]
+        }
+      },
+      "connection_pooling": {
+        "configuration": {
+          "pool_size": 100,
+          "max_overflow": 20,
+          "timeout": 30,
+          "recycle": 3600,
+          "pre_ping": true
+        },
+        "read_write_splitting": {
+          "write_pool": {
+            "size": 30,
+            "target": "primary"
+          },
+          "read_pool": {
+            "size": 70,
+            "target": "read_replicas",
+            "load_balancing": "least_connections"
+          }
+        }
+      },
+      "monitoring_and_tuning": {
+        "performance_metrics": {
+          "real_time_monitoring": [
+            "Query execution time",
+            "Connection pool utilization",
+            "Cache hit rates",
+            "Index scan vs sequential scan ratio",
+            "Lock wait time"
+          ],
+          "alerting_thresholds": {
+            "slow_query": "> 100ms",
+            "connection_exhaustion": "> 90%",
+            "cache_miss_rate": "> 20%",
+            "sequential_scan_rate": "> 10%"
+          }
+        },
+        "auto_tuning": {
+          "enabled": true,
+          "parameters": [
+            "work_mem",
+            "maintenance_work_mem",
+            "random_page_cost",
+            "effective_io_concurrency"
+          ],
+          "ml_model": "gradient_boosting",
+          "adjustment_frequency": "daily"
+        },
+        "capacity_planning": {
+          "growth_projections": {
+            "users_per_month": 50000,
+            "storage_growth": "100GB/month",
+            "query_growth": "10%/month"
+          },
+          "scaling_triggers": {
+            "cpu_utilization": "> 70%",
+            "storage_utilization": "> 80%",
+            "response_time_degradation": "> 20%"
+          }
+        }
+      }
+    },
+    "expected_improvements": {
+      "query_performance": {
+        "user_lookup": "250ms -> 1ms (250x improvement)",
+        "bulk_operations": "10s -> 500ms (20x improvement)",
+        "reporting_queries": "30s -> 2s (15x improvement)"
+      },
+      "write_performance": {
+        "single_insert": "50ms -> 5ms (10x improvement)",
+        "bulk_insert": "10 rec/s -> 1000 rec/s (100x improvement)",
+        "update_operations": "100ms -> 10ms (10x improvement)"
+      },
+      "storage_efficiency": {
+        "data_size": "2.5TB -> 1.75TB (30% reduction)",
+        "index_size": "450GB -> 225GB (50% reduction)",
+        "backup_size": "3TB -> 2TB (33% reduction)"
+      },
+      "operational_efficiency": {
+        "maintenance_windows": "4 hours -> 30 minutes",
+        "recovery_time": "2 hours -> 10 minutes",
+        "schema_changes": "Blocking -> Online"
+      }
+    }
+  }
+}

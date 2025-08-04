@@ -1,0 +1,65 @@
+{
+  "config": {
+    "deployment": {
+      "default_strategy": "blue_green",
+      "staging_environment": "staging",
+      "production_environment": "production",
+      "health_check_interval_seconds": 30,
+      "rollback_threshold": {
+        "accuracy_drop": 0.05,
+        "error_rate_increase": 0.1,
+        "latency_increase": 0.3
+      }
+    },
+    "validation": {
+      "required_accuracy": 0.85,
+      "required_precision": 0.8,
+      "required_recall": 0.8,
+      "max_latency_ms": 1000,
+      "validation_data_percentage": 0.2,
+      "cross_validation_folds": 5
+    },
+    "continuous_learning": {
+      "retrain_frequency_days": 7,
+      "min_new_samples": 1000,
+      "performance_degradation_threshold": 0.05,
+      "data_drift_threshold": 0.1,
+      "auto_retrain_enabled": true
+    },
+    "monitoring": {
+      "drift_detection_enabled": true,
+      "drift_check_interval_hours": 6,
+      "performance_tracking_enabled": true,
+      "alert_thresholds": {
+        "accuracy_drop": 0.05,
+        "latency_spike": 2.0,
+        "error_rate": 0.1
+      }
+    },
+    "model_serving": {
+      "max_concurrent_requests": 1000,
+      "timeout_seconds": 30,
+      "batch_size": 32,
+      "auto_scaling": {
+        "enabled": true,
+        "min_instances": 1,
+        "max_instances": 10,
+        "cpu_threshold": 70,
+        "memory_threshold": 80
+      }
+    },
+    "storage": {
+      "model_storage_path": "./ml_models",
+      "data_storage_path": "./ml_data",
+      "logs_storage_path": "./ml_logs",
+      "retention_days": 90
+    }
+  },
+  "model_metadata": {},
+  "deployments": {},
+  "validation_reports": [],
+  "drift_results": [],
+  "retraining_jobs": {},
+  "performance_metrics": [],
+  "last_updated": "2025-08-04T10:38:04.811343"
+}

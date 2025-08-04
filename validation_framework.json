@@ -1,0 +1,302 @@
+{
+  "validation_framework": {
+    "architecture": "Multi-layer Defense-in-Depth",
+    "validation_layers": {
+      "layer_1_schema_validation": {
+        "description": "Database-level constraints and triggers",
+        "components": {
+          "constraints": [
+            {
+              "field": "email",
+              "validations": [
+                "NOT NULL",
+                "UNIQUE",
+                "CHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$')",
+                "CHECK (LENGTH(email) <= 255)"
+              ]
+            },
+            {
+              "field": "birth_date",
+              "validations": [
+                "CHECK (birth_date <= CURRENT_DATE - INTERVAL '13 years')",
+                "CHECK (birth_date >= CURRENT_DATE - INTERVAL '120 years')"
+              ]
+            },
+            {
+              "field": "username",
+              "validations": [
+                "NOT NULL",
+                "UNIQUE",
+                "CHECK (username ~* '^[a-zA-Z0-9_]{3,50}$')"
+              ]
+            },
+            {
+              "field": "data_quality_score",
+              "validations": [
+                "CHECK (data_quality_score >= 0.00 AND data_quality_score <= 1.00)"
+              ]
+            }
+          ],
+          "triggers": [
+            {
+              "name": "validate_profile_preferences",
+              "event": "BEFORE INSERT OR UPDATE",
+              "function": "validate_json_schema('profile_preferences_v1.json')"
+            },
+            {
+              "name": "update_quality_score",
+              "event": "AFTER INSERT OR UPDATE",
+              "function": "calculate_data_quality_score()"
+            },
+            {
+              "name": "audit_trail",
+              "event": "AFTER INSERT OR UPDATE OR DELETE",
+              "function": "create_audit_log_entry()"
+            }
+          ]
+        }
+      },
+      "layer_2_application_validation": {
+        "description": "Application-level validation logic",
+        "validation_rules": {
+          "email_validation": {
+            "regex": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+            "dns_check": true,
+            "disposable_email_check": true,
+            "mx_record_verification": true,
+            "rate_limit": "3 changes per 24 hours"
+          },
+          "date_validation": {
+            "format": "ISO-8601",
+            "parser": "strict",
+            "timezone": "UTC",
+            "business_rules": [
+              "age >= 13",
+              "age <= 120",
+              "not_future_date"
+            ]
+          },
+          "profile_preferences_validation": {
+            "schema_version": "1.0.0",
+            "required_fields": [
+              "theme",
+              "language",
+              "timezone",
+              "notification_settings"
+            ],
+            "field_validators": {
+              "theme": {
+                "type": "string",
+                "enum": ["light", "dark", "auto"]
+              },
+              "language": {
+                "type": "string",
+                "pattern": "^[a-z]{2}-[A-Z]{2}$"
+              },
+              "timezone": {
+                "type": "string",
+                "validator": "valid_iana_timezone"
+              },
+              "notification_settings": {
+                "type": "object",
+                "properties": {
+                  "email": {"type": "boolean"},
+                  "push": {"type": "boolean"},
+                  "sms": {"type": "boolean"}
+                }
+              }
+            }
+          },
+          "gdpr_consent_validation": {
+            "required_consents": [
+              "data_processing",
+              "marketing",
+              "third_party_sharing"
+            ],
+            "consent_structure": {
+              "type": "object",
+              "properties": {
+                "consent_given": {"type": "boolean"},
+                "timestamp": {"type": "string", "format": "date-time"},
+                "ip_address": {"type": "string", "format": "ipv4"},
+                "version": {"type": "string"}
+              }
+            }
+          }
+        }
+      },
+      "layer_3_business_logic_validation": {
+        "description": "Complex business rule validation",
+        "rules": [
+          {
+            "rule": "Duplicate Account Prevention",
+            "logic": "Check email, normalized phone, and fuzzy name matching",
+            "threshold": 0.85,
+            "action": "flag_for_review"
+          },
+          {
+            "rule": "Data Completeness Check",
+            "required_fields_by_user_type": {
+              "standard": ["email", "username", "first_name", "last_name"],
+              "premium": ["email", "username", "first_name", "last_name", "birth_date", "phone"],
+              "enterprise": ["all_fields"]
+            }
+          },
+          {
+            "rule": "Anomaly Detection",
+            "checks": [
+              "Unusual character patterns",
+              "Rapid field changes",
+              "Suspicious IP patterns",
+              "Bulk registration detection"
+            ],
+            "ml_model": "isolation_forest",
+            "threshold": 0.95
+          },
+          {
+            "rule": "Cross-field Validation",
+            "validations": [
+              "Email domain matches organization for enterprise users",
+              "Age appropriate content preferences",
+              "Geographical consistency"
+            ]
+          }
+        ]
+      },
+      "layer_4_real_time_monitoring": {
+        "description": "Continuous validation and monitoring",
+        "components": {
+          "stream_processing": {
+            "technology": "Apache Kafka + Flink",
+            "validation_topics": [
+              "user.create",
+              "user.update",
+              "user.delete",
+              "validation.failed"
+            ]
+          },
+          "metrics": {
+            "validation_success_rate": {
+              "target": 99.9,
+              "measurement_window": "5 minutes",
+              "alert_threshold": 99.5
+            },
+            "data_quality_score_distribution": {
+              "buckets": ["0-0.5", "0.5-0.7", "0.7-0.85", "0.85-0.95", "0.95-1.0"],
+              "alert_if": "more than 5% in lowest bucket"
+            },
+            "validation_latency": {
+              "p50_target": "5ms",
+              "p95_target": "20ms",
+              "p99_target": "50ms"
+            }
+          },
+          "alerts": [
+            {
+              "name": "High Validation Failure Rate",
+              "condition": "failure_rate > 1%",
+              "severity": "critical",
+              "action": "page_on_call"
+            },
+            {
+              "name": "Data Quality Degradation",
+              "condition": "avg_quality_score < 0.8",
+              "severity": "high",
+              "action": "email_team"
+            },
+            {
+              "name": "Validation Latency Spike",
+              "condition": "p95_latency > 50ms",
+              "severity": "medium",
+              "action": "slack_notification"
+            }
+          ]
+        }
+      },
+      "layer_5_batch_validation": {
+        "description": "Periodic comprehensive validation",
+        "schedule": {
+          "hourly_checks": [
+            "Constraint violation scan",
+            "Orphaned record detection",
+            "Index consistency check"
+          ],
+          "daily_checks": [
+            "Full data quality assessment",
+            "Duplicate detection",
+            "Schema compliance verification",
+            "Historical data validation"
+          ],
+          "weekly_checks": [
+            "Deep integrity analysis",
+            "Cross-system reconciliation",
+            "Compliance audit",
+            "Performance baseline validation"
+          ]
+        },
+        "remediation_workflows": {
+          "auto_correction": {
+            "eligible_issues": [
+              "Case normalization",
+              "Whitespace trimming",
+              "Date format standardization"
+            ],
+            "approval": "automatic",
+            "audit": "required"
+          },
+          "manual_review": {
+            "eligible_issues": [
+              "Duplicate accounts",
+              "Suspicious patterns",
+              "Missing critical data"
+            ],
+            "workflow": "queue_for_support",
+            "sla": "24 hours"
+          },
+          "user_intervention": {
+            "eligible_issues": [
+              "Invalid contact information",
+              "Expired consent",
+              "Incomplete profile"
+            ],
+            "notification": "email_user",
+            "grace_period": "30 days"
+          }
+        }
+      }
+    },
+    "validation_scoring_algorithm": {
+      "name": "Composite Data Quality Score",
+      "formula": "0.3*completeness + 0.25*validity + 0.2*consistency + 0.15*uniqueness + 0.1*timeliness",
+      "components": {
+        "completeness": {
+          "calculation": "non_null_fields / total_required_fields",
+          "weight": 0.3
+        },
+        "validity": {
+          "calculation": "valid_format_fields / total_fields",
+          "weight": 0.25
+        },
+        "consistency": {
+          "calculation": "1 - (conflicting_data_points / total_data_points)",
+          "weight": 0.2
+        },
+        "uniqueness": {
+          "calculation": "unique_values / total_values",
+          "weight": 0.15
+        },
+        "timeliness": {
+          "calculation": "1 / (1 + days_since_update/30)",
+          "weight": 0.1
+        }
+      },
+      "score_thresholds": {
+        "excellent": ">= 0.95",
+        "good": ">= 0.85",
+        "acceptable": ">= 0.70",
+        "needs_improvement": ">= 0.50",
+        "critical": "< 0.50"
+      }
+    }
+  }
+}

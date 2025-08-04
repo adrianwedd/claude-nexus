@@ -1,0 +1,54 @@
+{
+  "monitoring": {
+    "collection_interval_seconds": 10,
+    "anomaly_detection_interval_seconds": 30,
+    "optimization_interval_seconds": 60,
+    "baseline_update_interval_minutes": 60
+  },
+  "thresholds": {
+    "performance_degradation": 0.1,
+    "response_time_spike": 2.0,
+    "quality_drop": 0.15,
+    "error_rate_threshold": 0.05,
+    "anomaly_confidence": 0.8
+  },
+  "optimization": {
+    "auto_optimization_enabled": true,
+    "max_concurrent_optimizations": 3,
+    "optimization_cooldown_minutes": 30,
+    "risk_tolerance": "medium"
+  },
+  "alerts": {
+    "email_enabled": false,
+    "slack_enabled": false,
+    "webhook_enabled": false,
+    "console_enabled": true
+  },
+  "ml_models": {
+    "anomaly_detection": {
+      "contamination": 0.1,
+      "n_estimators": 100
+    },
+    "trend_prediction": {
+      "n_estimators": 50,
+      "max_depth": 10
+    }
+  },
+  "agents": {
+    "reliability-engineer": {
+      "performance_target": 0.85,
+      "response_time_target_ms": 5000,
+      "optimization_priority": "high"
+    },
+    "fortress-guardian": {
+      "performance_target": 0.9,
+      "response_time_target_ms": 4500,
+      "optimization_priority": "high"
+    },
+    "performance-virtuoso": {
+      "performance_target": 0.88,
+      "response_time_target_ms": 4000,
+      "optimization_priority": "high"
+    }
+  }
+}
